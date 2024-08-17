@@ -152,7 +152,7 @@ fn main() {
     println!("Hello, {}", LpPool::swap(&mut lp, StakedTokenAmount(6*1_000_000)).unwrap().0 );
     let b = LpPool::add_liquidity(&mut lp, TokenAmount(10*1_000_000)).unwrap().0;
     println!("Hello, {}", b.clone() );
-    println!("Hello, {}", LpPool::swap(&mut lp, StakedTokenAmount(320*1_000_000)).unwrap().0 );
+    println!("Hello, {}", LpPool::swap(&mut lp, StakedTokenAmount(30*1_000_000)).unwrap().0 );
     let c = a+b;
     let (token_amount, staked_token_amount) = LpPool::remove_liquidity(&mut lp, LpTokenAmount(c)).unwrap();
     println!("Token Amount: {:?}", token_amount);
