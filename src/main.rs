@@ -111,14 +111,6 @@ impl LpPool {
         let token_for_st = multiply(self.price.0, staked_token_amount.0);
         let token_min_fee = token_for_st - multiply(token_for_st, self.min_fee.0);
 
-        let check_target = self.token_amount_reserve.0 - token_min_fee;
-
-
-        if check_target > self.liquidity_target.0 || self.min_fee.0 == self.max_fee.0 || self.liquidity_target.0 == 0{
-            self.st_token_amount.0 += staked_token_amount.0;
-            self.token_amount_reserve.0 -= token_min_fee;
-            return Ok(TokenAmount(token_min_fee))
-        }
         // IF REVERVE < 0
         let token_receive_max_fee = token_for_st - multiply(token_for_st, self.max_fee.0);
 
@@ -127,6 +119,17 @@ impl LpPool {
             let st_max_swap = divide(token_max_fee, self.price.0);
             return Err(Errors::ToBigSwap(st_max_swap))
         }
+
+
+        let check_target = self.token_amount_reserve.0 - token_min_fee;
+
+
+        if check_target > self.liquidity_target.0 || self.min_fee.0 == self.max_fee.0 || self.liquidity_target.0 == 0{
+            self.st_token_amount.0 += staked_token_amount.0;
+            self.token_amount_reserve.0 -= token_min_fee;
+            return Ok(TokenAmount(token_min_fee))
+        }
+
 
 
         let diff_token = self.token_amount_reserve.0 - token_for_st; // simple diffrence without fee
@@ -149,7 +152,7 @@ fn main() {
     println!("Hello, {}", LpPool::swap(&mut lp, StakedTokenAmount(6*1_000_000)).unwrap().0 );
     let b = LpPool::add_liquidity(&mut lp, TokenAmount(10*1_000_000)).unwrap().0;
     println!("Hello, {}", b.clone() );
-    println!("Hello, {}", LpPool::swap(&mut lp, StakedTokenAmount(30*1_000_000)).unwrap().0 );
+    println!("Hello, {}", LpPool::swap(&mut lp, StakedTokenAmount(320*1_000_000)).unwrap().0 );
     let c = a+b;
     let (token_amount, staked_token_amount) = LpPool::remove_liquidity(&mut lp, LpTokenAmount(c)).unwrap();
     println!("Token Amount: {:?}", token_amount);
