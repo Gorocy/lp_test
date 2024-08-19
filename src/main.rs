@@ -233,7 +233,6 @@ mod tests {
 
         assert_eq!(minted_lp.0, 9__999_100);
         assert_eq!(pool.lp_token_amount.0, 109__999_100);
-        // TODO
         assert_eq!(pool.price.0, 1__500_000);
         assert_eq!(pool.token_amount_reserve.0, 101__009_000);
         assert_eq!(pool.st_token_amount.0, 6__000_000);
@@ -254,7 +253,6 @@ mod tests {
 
         assert_eq!(received_token.0, 43_442_370);
         assert_eq!(pool.lp_token_amount.0, 109__999_100);
-        // TODO
         assert_eq!(pool.price.0, 1__500_000);
         assert_eq!(pool.token_amount_reserve.0, 57__566_630);
         assert_eq!(pool.st_token_amount.0, 36__000_000);
@@ -434,7 +432,7 @@ fn main() {
         .unwrap()
         .0;
 
-    println!("Hello, {}", a.clone());
+    println!("Step 2: {}", a.clone());
     println!(
         "Hello, {}",
         LpPool::swap(&mut lp, StakedTokenAmount(6 * 1_000_000))
@@ -444,9 +442,9 @@ fn main() {
     let b = LpPool::add_liquidity(&mut lp, TokenAmount(10 * 1_000_000))
         .unwrap()
         .0;
-    println!("Hello, {}", b.clone());
+    println!("Step 3: {}", b.clone());
     println!(
-        "Hello, {}",
+        "Step 4, {}",
         LpPool::swap(&mut lp, StakedTokenAmount(30 * 1_000_000))
             .unwrap()
             .0
@@ -454,6 +452,7 @@ fn main() {
     let c = a + b;
     let (token_amount, staked_token_amount) =
         LpPool::remove_liquidity(&mut lp, LpTokenAmount(c)).unwrap();
+    println!("Step 5:");
     println!("Token Amount: {:?}", token_amount);
     println!("Staked Token Amount: {:?}", staked_token_amount);
 }
